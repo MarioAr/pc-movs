@@ -6,7 +6,7 @@ export interface Movimiento {
     amount: number;
     type: number;
     date: Date;
-    status: string;
+    status: number;
     interes: number;
 }
 
@@ -16,7 +16,7 @@ export interface MovimientoBuilder {
     amount(amount: number): MovimientoBuilder;
     type(type: number): MovimientoBuilder;
     date(date: Date): MovimientoBuilder;
-    status(status: string): MovimientoBuilder;
+    status(status: number): MovimientoBuilder;
     build(valuesConfig?: TConfigValues, dataPuntoData?: TPuntoData): Movimiento;
     calcularMonto(valuesConfig?: TConfigValues, dataPuntoData?: TPuntoData): void;
   }
@@ -43,4 +43,19 @@ export type TConfigValues = {
 export type TPuntoData = {
     comisionRecibir: number;
     comisionEnviar: number;
+}
+
+export type TMovEstado = {
+    completo: number;
+    suspendido: number;
+}
+
+export type TMakerPunto = {
+    amount: number;
+    // cuentaUsuario: string;
+    // cuentaPunto: string;
+    configValues: TConfigValues;
+    puntoData: TPuntoData;
+    estados: TMovEstado;
+    tipos: MovimientoType;
 }

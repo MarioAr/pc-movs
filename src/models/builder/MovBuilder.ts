@@ -8,7 +8,7 @@ export default abstract class MovBuilder implements MovimientoBuilder {
         amount: 0,
         type: 0,
         date: new Date(),
-        status: "",
+        status: 0,
         interes: 0,
     };
 
@@ -48,7 +48,7 @@ export default abstract class MovBuilder implements MovimientoBuilder {
         this._mov.date = date;
         return this;
     }
-    status(status: string): MovimientoBuilder {
+    status(status: number): MovimientoBuilder {
         this._mov.status = status;
         return this;
     }

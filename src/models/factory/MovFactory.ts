@@ -53,6 +53,14 @@ export class MovimientoFactory2 {
         return mov;
     }
 
+    createBuilderPCEntregarEfectivo(): MovBuilder {
+        const mov = new MovPuntoCashRecibirEfectivo();
+
+        mov.type(this._type.userPuntoCash);
+        
+        return mov;
+    }
+
     createBuilderPCRecibirEfectivoComiUser(): MovBuilder {
         const mov = new MovPuntoCashComision();
 

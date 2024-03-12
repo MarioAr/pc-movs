@@ -1,5 +1,7 @@
 import { MovimientoType, TConfigValues, TPuntoData } from "./models/poo/Movimiento";
 import { MovimientoFactory2 } from "./models/factory/MovFactory";
+import MakerPCRecibir from "./makers/pc/MakerPCRecibir";
+import MakerTransferenciaSimple from "./makers/transferencias/MakerTransferenciaSimple";
 
 const types: MovimientoType = {
     userUserCash: 1,
@@ -16,8 +18,8 @@ const valuesConfig: TConfigValues = {
     comisionMaxima: 0.2,
     montoMinimo: 100,
     montoMaximo: 1000,
-    comisionRecibir: 0.5,
-    comisionEnviar: 0.5,
+    comisionRecibir: 0.6,
+    comisionEnviar: 0.6,
 };
 const puntoData: TPuntoData = {
     comisionRecibir: 0.011,
@@ -28,26 +30,32 @@ const amount = 1000000;
 const cuentaPunto = "541100000001-1001";
 const cuentaCliente = "541134256025-1001";
 
+const options = {
+    amount,
+    cuentaUsuario: cuentaCliente,
+    cuentaPunto,
+    configValues: valuesConfig,
+    puntoData,
+    estados: { completo: 1, suspendido: 2},
+    tipos: types,
+};
+const makerPCR = new MakerPCRecibir(cuentaCliente, cuentaPunto, options);
+const makerPCEntregar = new MakerPCRecibir(cuentaCliente, cuentaPunto, options);
 
-// Todo esto iria en una clase Maker PCRecibir
-const factory2 = new MovimientoFactory2(types); // Devuelve un objeto MovUserUserFactory
+makerPCR.buildMovs();
 
-const builderPCRecibir = factory2.createBuilderPCRecibirEfectivo();
+console.log(makerPCR.Movs);
 
-const builderPCRecibirComiUser = factory2.createBuilderPCRecibirEfectivoComiUser();
+console.log('||||||||||||||||||||||||||||||||||||||||');
 
-const builderPCComiApp = factory2.createBuilderPCRecibirEfectivoComiApp();
+makerPCEntregar.buildMovs();
 
-const movs = [builderPCRecibir, builderPCRecibirComiUser, builderPCComiApp];
+console.log(makerPCEntregar.Movs);
 
-movs.forEach((mov) => {
-    mov.amount(amount);
-    mov.from(cuentaCliente);
-    mov.to(cuentaPunto);
-    mov.status("pendiente");
+const trans = new MakerTransferenciaSimple(cuentaCliente, cuentaPunto, options);
 
-    mov.build(valuesConfig, puntoData);
-});
+trans.buildMovs();
 
-console.log(movs);
-// Inserto movimiento y actualizo saldos.
+console.log('||||||||||||||||||||||||||||||||||||||||');
+
+console.log(trans.Movs);
